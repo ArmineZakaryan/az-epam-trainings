@@ -1,3 +1,7 @@
+import com.sun.source.tree.EmptyStatementTree;
+
+import java.util.EmptyStackException;
+
 public class Stack {
 
     private Object[] data;
@@ -8,6 +12,10 @@ public class Stack {
      * The stack starts empty (tos = 0).
      */
     public Stack(int capacity) {
+       if(capacity < 0){
+           throw new IllegalArgumentException(
+                   "Capacity must be non-negative, got: " + capacity);
+       }
         data = new Object[capacity];
         tos = 0;
     }
@@ -16,7 +24,7 @@ public class Stack {
      * Creates a Stack with a default capacity of 10.
      */
     public Stack() {
-        data = new Object[10];
+        this(10);
     }
 
     /**
@@ -25,7 +33,7 @@ public class Stack {
      */
     public void push(Object value) {
         if (tos == data.length) {
-            throw new RuntimeException("Stack is full");
+            throw new IllegalStateException("Stack is full");
         }
         data[tos] = value;
         tos++;
@@ -37,7 +45,7 @@ public class Stack {
      */
     public Object pop() {
         if (tos == 0) {
-            throw new RuntimeException("Stack is empty");
+            throw new EmptyStackException();
         }
         tos--;
 
@@ -53,7 +61,7 @@ public class Stack {
      */
     public Object peek() {
         if (tos == 0) {
-            throw new RuntimeException("Stack is empty");
+            throw new EmptyStackException();
         }
 
         return data[tos - 1];

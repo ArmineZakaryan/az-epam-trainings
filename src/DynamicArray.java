@@ -61,12 +61,7 @@ public class DynamicArray {
      */
     public void add(Object value) {
         if (size == data.length) {
-            Object[] newData = new Object[data.length * 2];
-
-            for (int i = 0; i < data.length; i++) {
-                newData[i] = data[i];
-            }
-            data = newData;
+            grow();
         }
         data[size] = value;
         size++;
@@ -83,12 +78,7 @@ public class DynamicArray {
             throw new IndexOutOfBoundsException();
         }
         if (size == data.length) {
-            Object[] newData = new Object[data.length * 2];
-
-            for (int i = 0; i < data.length; i++) {
-                newData[i] = data[i];
-            }
-            data = newData;
+            grow();
         }
         for (int i = size; i > index; i--) {
             data[i] = data[i - 1];
@@ -189,7 +179,9 @@ public class DynamicArray {
      * (Hint: create a new Object[] with double length, copy elements, reassign)
      */
     private void grow() {
-        Object[] newData = new Object[data.length * 2];
+       int newCapacity = data.length == 0 ? 1 : data.length * 2;
+
+        Object[] newData = new Object[newCapacity];
         for (int i = 0; i < size; i++) {
             newData[i] = data[i];
         }
